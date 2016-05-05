@@ -8,13 +8,23 @@
 
 	palmbus@10000000 {
 		gpio1: gpio@660 {
-			status = "okay";
+			status = "disable";
 		};
 
 		i2c@900 {
+			compatible = "link,rt5350-i2c", "ralink,rt2880-i2c";
+			 reg = <0x900 0x100>;
+
+			 resets = <&rstctrl 16>;
+			 reset-names = "i2c";
+
+			 #address-cells = <1>;
+			 #size-cells = <0>;
+
+
 			status = "okay";
 		};
-
+		
 		spi@b00 {
 			status = "okay";
 
@@ -46,7 +56,7 @@
 
 				partition@50000 {
 					label = "firmware";
-					reg = <0x50000 0x7b0000>;
+					reg = <0x50000 0xfb0000>;
 				};
 			};
 
@@ -66,7 +76,6 @@
 			};
 		};
 	};
-
 	ethernet@10100000 {
 		mtd-mac-address = <&factory 0x4>;
 	};
@@ -212,5 +221,16 @@
 			label = "vocore:orange:eth";
 			gpios = <&gpio0 11 0>;
 		};
+	};
+	i2c_gpio:i2c {
+
+	    i2c{
+
+		   lantiq,group= "i2c";
+
+		   lantiq,function= "i2c";
+
+	    };
+
 	};
 };
